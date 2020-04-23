@@ -1,0 +1,19 @@
+#include<stdio.h>
+#include<sys/ipc.h>
+#include<sys/msg.h>
+struct msg_buffer
+{
+ int mesg_type;
+ char mesgtxt[100];
+}message;
+int main()
+{
+ key_t key;
+ int msgid;
+ key=ftok("progfile.txt",60);
+ msgid=msgget(key,IPC_CREAT|0666);
+ message.mesg_type=0;
+ gets(message.mesgtxt);
+ msgsnd(msgid,&message,sizeof(message),0);
+ printf("\n%s",message.mesgtxt);
+}

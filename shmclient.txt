@@ -1,0 +1,36 @@
+#include<sys/types.h>
+#include<sys/ipc.h>
+#include<sys/shm.h>
+#include<stdlib.h>
+#include<stdio.h>
+#define SHMSZ 27
+int main()
+{
+  int shmid;
+  key_t key;
+  key=1234;
+  char *shm,*s,c;
+  if((shmid=shmget(key,SHMSZ,0666))<0)
+  {
+    printf("\nCannot get shared memory\n");
+  }
+  if((shm=shmat(shmid,NULL,0))==(char *)-1)
+  {
+    printf("\nCannot attach\n");
+  }
+  s=shm;
+  for(s=shm;*s!='\0';s++)
+  {
+    putchar(*s);
+    putchar(' ');
+  }
+ putchar('\n');
+ *shm='*';
+ exit(0);
+/*  while(*shm!='*')
+  {
+   sleep(1);
+   exit(0);
+  }*/
+}
+

@@ -1,0 +1,34 @@
+#include<stdio.h>
+#include<pthread.h>
+int facto=1;
+int squ;
+void *fact(void *a);
+void *sq(void *a);
+int main(int argc,char *argv[])
+{
+ pthread_t tid1;
+ pthread_t tid2;
+ pthread_create(&tid1,NULL,fact,argv[1]);
+ pthread_create(&tid2,NULL,sq,argv[1]);
+ pthread_join(tid1,NULL);
+ printf("Fact = %d\n",facto);
+ pthread_join(tid2,NULL);
+ printf("Square = %d\n",squ);
+}
+void *fact(void *a)
+{
+ int i,j;
+ i=atoi(a);
+ for(j=i;j>0;j--)
+{
+ facto=facto*j;
+}
+pthread_exit(0);
+}
+void *sq(void *a)
+{
+ int i;
+ i=atoi(a);
+ squ=i*i;
+ pthread_exit(0);
+}

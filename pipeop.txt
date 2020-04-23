@@ -1,0 +1,8 @@
+Parent process writing to file
+
+Child process reading from pipe
+
+Hi
+
+Hello
+

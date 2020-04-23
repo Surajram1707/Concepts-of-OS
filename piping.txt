@@ -1,0 +1,30 @@
+#include<unistd.h>
+#include<stdio.h>
+main()
+{
+ int pipefds[2];
+ int returnstatus;
+ int pid;
+ char wmsg[2][20]={"Hi","Hello"};
+ char rmsg[20];
+ returnstatus=pipe(pipefds);
+ if(returnstatus==-1)
+ {
+  printf("\nUnable to create a pipe\n");
+ }
+ pid=fork();
+ if(pid==0)
+ {
+  printf("\nChild process reading from pipe\n");
+  read(pipefds[0],rmsg,sizeof(rmsg));
+  printf("\n%s\n",rmsg);
+  read(pipefds[0],rmsg,sizeof(rmsg));
+  printf("\n%s\n",rmsg);
+ }
+ else
+{
+ printf("\nParent process writing to file\n");
+ write(pipefds[1],wmsg[0],sizeof(wmsg));
+ write(pipefds[1],wmsg[1],sizeof(wmsg));
+}
+}
